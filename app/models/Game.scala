@@ -1,8 +1,12 @@
+// there is so much boilerplate, it breaks my little dynamically-typed heart
+
 package models
 
 import java.util.Date
 
 class Game(
+  var player:      Player,
+
   var gameId:      String,
   var version:     String,
   var name:        String,
@@ -17,7 +21,8 @@ class Game(
   var deathdate:   Date,
   var birthdate:   Date,
 
-  var points:      Int,
+  var points:      Long,
+
   var deathdnum:   Int,
   var deathlev:    Int,
   var maxlvl:      Int,
@@ -33,12 +38,13 @@ class Game(
   var kills120:    Int,
 
   var conduct:     Int, // bitfield
-  var achieve:     Int) // bitfield
+  var achieve:     Int  // bitfield
+)
 
 
 object Game {
 
-  def newFromXlogLine(line: String): Option[Game] = {
+  def fromXlogLine(line: String): Game = {
     // An Xlogfile line looks like this (no line breaks):
     //
     // 1-0 version=3.4.3:points=0:deathdnum=0:deathlev=1:maxlvl=1:hp=14:
@@ -49,9 +55,6 @@ object Game {
     //
     // "1-0" is the gameId, and following a space, the rest is a colon-
     // separated key=value string.
-
-    val firstSpace = line.indexOf(" ")
-    if (firstSpace < 0) return None
 
     val (gameId, paramStream) = splitFirst(line, " ")
     val params = Map(
@@ -66,10 +69,12 @@ object Game {
     val dateKeys = List("deathdate", "birthdate")
     val List(deathdate, birthdate) = dateKeys.map(k => strToDate(params(k)))
 
-    val intKeys = List("points", "deathdnum", "deathlev", "maxlvl", "hp",
+    val points = params("points").toLong
+
+    val intKeys = List("deathdnum", "deathlev", "maxlvl", "hp",
                        "maxhp", "deaths", "uid", "turns", "realtime",
                        "starttime", "endtime", "extinctions", "kills120")
-    val List(points, deathdnum, deathlev, maxlvl, hp, maxhp, deaths, uid,
+    val List(deathdnum, deathlev, maxlvl, hp, maxhp, deaths, uid,
       turns, realtime, starttime, endtime, extinctions, kills120) =
       intKeys.map(k => params(k).toInt)
 
@@ -78,16 +83,17 @@ object Game {
 
 
     val game = new Game(
+      Player(name),
       gameId,
       version, name, death, role, race, gender, gender0, align, align0,
       deathdate, birthdate,
-      points, deathdnum, deathlev, maxlvl, hp, maxhp, deaths, uid,
-      turns, realtime, starttime, endtime, extinctions, kills120,
+      points,
+      deathdnum, deathlev, maxlvl, hp, maxhp, deaths, uid,
+        turns, realtime, starttime, endtime, extinctions, kills120,
       conduct, achieve
     )
 
-    Some(game)
-
+    game
   }
 
   // parses "20120415" into a Date representing April 15, 2013
