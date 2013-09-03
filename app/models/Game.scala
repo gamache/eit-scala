@@ -39,7 +39,34 @@ class Game(
 
   var conduct:     Int, // bitfield
   var achieve:     Int  // bitfield
-)
+) {
+
+  def foodless():         Boolean = (conduct & 1<<0) != 0
+  def vegan():            Boolean = (conduct & 1<<1) != 0
+  def vegetarian():       Boolean = (conduct & 1<<2) != 0
+  def atheist():          Boolean = (conduct & 1<<3) != 0
+  def weaponless():       Boolean = (conduct & 1<<4) != 0
+  def pacifist():         Boolean = (conduct & 1<<5) != 0
+  def illiterate():       Boolean = (conduct & 1<<6) != 0
+  def polypileless():     Boolean = (conduct & 1<<7) != 0
+  def polyselfless():     Boolean = (conduct & 1<<8) != 0
+  def wishless():         Boolean = (conduct & 1<<9) != 0
+  def artifactWishless(): Boolean = (conduct & 1<<10) != 0
+  def genocideless():     Boolean = (conduct & 1<<11) != 0
+
+  def gotBell():          Boolean = (achieve & 1<<0) != 0
+  def enteredGehennom():  Boolean = (achieve & 1<<1) != 0
+  def gotCandelabrum():   Boolean = (achieve & 1<<2) != 0
+  def gotBook():          Boolean = (achieve & 1<<3) != 0
+  def didInvocation():    Boolean = (achieve & 1<<4) != 0
+  def gotAmulet():        Boolean = (achieve & 1<<5) != 0
+  def reachedElemental(): Boolean = (achieve & 1<<6) != 0
+  def reachedAstral():    Boolean = (achieve & 1<<7) != 0
+  def ascended():         Boolean = (achieve & 1<<8) != 0
+  def didMines():         Boolean = (achieve & 1<<9) != 0
+  def didSokoban():       Boolean = (achieve & 1<<10) != 0
+  def killedMedusa():     Boolean = (achieve & 1<<11) != 0
+}
 
 
 object Game {

@@ -1,23 +1,27 @@
 package stats
-import scala.collection.SortedMap
-
-case class HighScoreRecord(val player: models.Player, val score: Long) {
-  def compare(that: HighScoreRecord) = that.score compare this.score
-}
-object HighScoreRecord {
-  def apply(tuple: (models.Player, Long)) = {
-    new HighScoreRecord(tuple._1, tuple._2)
-  }
-}
+import models._
 
 trait HighScore {
-  def gamesByPlayer: Map[models.Player, List[models.Game]]
+  def gamesByPlayer: Map[Player, List[Game]]
+  def games: List[Game]
 
-  def highTotalScores(): List[HighScoreRecord] = {
+  def highTotalScores(): List[(Player, Long)] = {
     gamesByPlayer
       .mapValues(v => v.foldLeft(0L){_+_.points})  // sum all games' scores
-      .map(ps => HighScoreRecord(ps))
       .toList
-      .sortBy(- _.score)
+      .sortBy(- _._2)
+  }
+
+  def highAverageScores(): List[(Player, Long)] = {
+    highTotalScores
+      .map(s => (s._1, s._2 / gamesByPlayer(s._1).size))
+      .toList
+      .sortBy(- _._2)
+  }
+
+  def highSingleScores(): List[(Player, Long)] = {
+    games
+      .sortBy(- _.points)
+      .map(g => (g.player, g.points))
   }
 }
