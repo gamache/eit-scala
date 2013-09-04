@@ -41,6 +41,7 @@ class Game(
   var achieve:     Int  // bitfield
 ) {
 
+  def nConducts(): Int = countSetBits(conduct)
   def foodless():         Boolean = (conduct & 1<<0) != 0
   def vegan():            Boolean = (conduct & 1<<1) != 0
   def vegetarian():       Boolean = (conduct & 1<<2) != 0
@@ -54,6 +55,7 @@ class Game(
   def artifactWishless(): Boolean = (conduct & 1<<10) != 0
   def genocideless():     Boolean = (conduct & 1<<11) != 0
 
+  def nAchievements(): Int = countSetBits(achieve)
   def gotBell():          Boolean = (achieve & 1<<0) != 0
   def enteredGehennom():  Boolean = (achieve & 1<<1) != 0
   def gotCandelabrum():   Boolean = (achieve & 1<<2) != 0
@@ -66,6 +68,10 @@ class Game(
   def didMines():         Boolean = (achieve & 1<<9) != 0
   def didSokoban():       Boolean = (achieve & 1<<10) != 0
   def killedMedusa():     Boolean = (achieve & 1<<11) != 0
+
+  private def countSetBits(bitfield: Int): Int = {
+    0.until(16).filter(i => (bitfield & 1 << i) != 0).size
+  }
 }
 
 

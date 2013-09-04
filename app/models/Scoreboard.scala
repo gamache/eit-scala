@@ -5,7 +5,8 @@ class Scoreboard(val name:  String, val games: List[Game])
 extends HighScore
    with Anorexics
    with Ascensions
-   //with BestBehaved
+   with BestBehaved
+   with DeathRay
    with Gruesome
 {
   val gamesByPlayer: Map[Player, List[Game]] = games.groupBy(_.player)
