@@ -3,10 +3,11 @@ package stats
 trait BestBehaved {
   val games: List[models.Game]
 
-  def bestBehaved(): List[(models.Player, Int)] = {
+  /** Games with the most conducts followed. */
+  def bestBehaved(): List[(models.Player, models.Game)] = {
     games
       .sortBy(- _.nConducts)
-      .map(g => (g.player, g.nConducts))
+      .map(g => (g.player, g))
   }
 }
 

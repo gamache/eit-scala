@@ -1,8 +1,11 @@
 package stats
 
 trait Anorexics {
-  def games: List[models.Game]
+  val games: List[models.Game]
 
+  /** For each player, total number of games in which they died of
+    * starvation.
+    */
   def anorexics(): List[(models.Player, Int)] = {
     games
       .filter(_.death == "died of starvation")
@@ -12,3 +15,4 @@ trait Anorexics {
       .sortBy(- _._2)
   }
 }
+
