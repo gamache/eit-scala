@@ -4,7 +4,7 @@ import models._
 trait BestOf13 {
   val gamesByPlayer: Map[Player, List[Game]]
 
-  /** Fore each player, greatest number of ascensions in 13 consecutive
+  /** For each player, greatest number of ascensions in 13 consecutive
     * games.
     */
   def bestOf13: List[(Player, Int)] = {

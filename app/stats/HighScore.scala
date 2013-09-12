@@ -2,8 +2,8 @@ package stats
 import models._
 
 trait HighScore {
-  def gamesByPlayer: Map[Player, List[Game]]
-  def games: List[Game]
+  val gamesByPlayer: Map[Player, List[Game]]
+  val games: List[Game]
 
   /** For each player, highest total scores for all games played. */
   def highTotalScores(): List[(Player, Long)] = {
